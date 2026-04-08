@@ -17,4 +17,14 @@ db.connect(err => {
     }
 });
 
+const PORT = process.env.PORT || 10000;
+
+app.get('/', (req, res) => {
+    res.send("🦀 Cascaruso funcionando en Render");
+});
+
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🦀 Servidor corriendo en puerto ${PORT}`);
+});
+
 module.exports = db;
