@@ -1,39 +1,56 @@
 const express = require('express');
 const session = require('express-session');
+const path = require('path');
+
 const app = express();
 
+// 🔹 MIDDLEWARES
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(express.json());
 
+// 🔹 ARCHIVOS ESTÁTICOS
+app.use(express.static(path.join(__dirname, 'public')));
+
+// 🔹 SESIONES
 app.use(session({
     secret: 'cascaruso_secret',
     resave: false,
     saveUninitialized: true
 }));
 
+// 🔹 MOTOR DE VISTAS
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-// Middleware protección
+// 🔹 FUNCIÓN DE AUTENTICACIÓN
 function auth(req, res, next) {
     if (req.session.user) {
-        next();
+        return next();
     } else {
         res.redirect('/login');
     }
 }
 
-const clientesRoutes = require('./routes/clientes');
-const ventasRoutes = require('./routes/ventas');
-const authRoutes = require('./routes/auth');
+// 🔹 RUTAS
+app.use('/', require('./routes/auth'));
+app.use('/clientes', auth, require('./routes/clientes'));
+app.use('/ventas', auth, require('./routes/ventas'));
 
-app.use('/', authRoutes);
-app.use('/clientes', auth, clientesRoutes);
-app.use('/ventas', auth, ventasRoutes);
-
+// 🔹 DASHBOARD
 app.get('/', auth, (req, res) => {
-    res.render('index');
+    res.render('index', {
+        user: req.session.user
+    });
 });
 
-app.listen(3000, () => {
-    console.log("🦀 Servidor con login en http://localhost:3000");
+// 🔹 MANEJO DE ERRORES (BONUS PRO)
+app.use((req, res) => {
+    res.status(404).send("❌ Página no encontrada");
+});
+
+// 🔹 PUERTO (🔥 CLAVE PARA RENDER)
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`🦀 Servidor corriendo en puerto ${PORT}`);
 });
