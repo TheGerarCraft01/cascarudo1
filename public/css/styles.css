@@ -1,0 +1,114 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #020617;
+    color: #e2e8f0;
+    margin: 0;
+}
+
+/* NAVBAR */
+.navbar {
+    background: #020617;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #1e293b;
+}
+
+.navbar h1 {
+    color: #f97316;
+}
+
+.navbar a {
+    color: #cbd5f5;
+    margin-left: 15px;
+    text-decoration: none;
+}
+
+/* CONTENEDOR */
+.container {
+    padding: 30px;
+}
+
+/* CARDS */
+.card {
+    background: #0f172a;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+}
+
+/* BOTONES */
+button, .btn {
+    background: #f97316;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+button:hover {
+    background: #ea580c;
+}
+
+.btn-danger {
+    background: #ef4444;
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+}
+
+/* FORM */
+form {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+input, select {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    flex: 1;
+}
+
+/* TABLAS */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background: #1e293b;
+}
+
+tr {
+    border-bottom: 1px solid #334155;
+}
+
+/* DASHBOARD */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.stat {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+body {
+    background: url('/images/fondo.jpg');
+    background-size: cover;
+}

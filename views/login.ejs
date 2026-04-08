@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login | Cascaruso 🦀</title>
+    <link rel="stylesheet" href="/css/styles.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="card" style="max-width:400px;margin:auto;margin-top:100px;">
+
+        <h2 style="text-align:center;">🦀 Cascaruso</h2>
+        <p style="text-align:center;">Iniciar sesión</p>
+
+        <!-- MENSAJE ERROR -->
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div style="background:#ef4444;padding:10px;border-radius:10px;margin-bottom:10px;">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <form action="/login" method="POST">
+
+            <input type="text" name="username" placeholder="Usuario" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
+
+            <button style="width:100%;">Ingresar</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

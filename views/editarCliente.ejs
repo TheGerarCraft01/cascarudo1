@@ -1,0 +1,7 @@
+<form action="/clientes/update/<%= cliente.id %>" method="POST" enctype="multipart/form-data">
+    <input name="nombre" value="<%= cliente.nombre %>">
+    <input name="telefono" value="<%= cliente.telefono %>">
+    <input name="email" value="<%= cliente.email %>">
+    <input type="file" name="foto">
+    <button>Actualizar</button>
+</form>

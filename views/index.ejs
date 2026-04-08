@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | Cascaruso 🦀</title>
+    <link rel="stylesheet" href="/css/styles.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        .welcome {
+            margin-bottom: 20px;
+        }
+
+        .grid-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card-dashboard {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        .card-dashboard:hover {
+            transform: scale(1.05);
+        }
+
+        .card-dashboard h3 {
+            margin-bottom: 10px;
+            color: #f97316;
+        }
+
+        .card-dashboard p {
+            margin-bottom: 15px;
+        }
+
+        .card-dashboard a {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #22c55e;
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h1>🦀 Cascaruso</h1>
+
+    <div class="topbar">
+        <span class="user">
+            Usuario: <%= typeof user !== 'undefined' ? user : 'Admin' %>
+        </span>
+
+        <div>
+            <a href="/clientes">Clientes</a>
+            <a href="/ventas">Ventas</a>
+            <a href="/logout">Salir</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- BIENVENIDA -->
+    <div class="welcome">
+        <h2>Dashboard</h2>
+        <p>Bienvenido al sistema de gestión Cascaruso 🦀</p>
+    </div>
+
+    <!-- TARJETAS -->
+    <div class="grid-dashboard">
+
+        <!-- CLIENTES -->
+        <div class="card-dashboard">
+            <h3>👥 Clientes</h3>
+            <p>Registrar, consultar y gestionar clientes</p>
+            <a href="/clientes">Ir a Clientes</a>
+        </div>
+
+        <!-- VENTAS -->
+        <div class="card-dashboard">
+            <h3>💰 Ventas</h3>
+            <p>Registrar ventas y consultar historial</p>
+            <a href="/ventas">Ir a Ventas</a>
+        </div>
+
+        <!-- RESUMEN -->
+        <div class="card-dashboard">
+            <h3>📊 Sistema</h3>
+            <p>Control general del negocio</p>
+            <span style="color:#22c55e;">✔ Operativo</span>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

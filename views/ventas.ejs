@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Ventas | Cascaruso 🦀</title>
+<link rel="stylesheet" href="/css/styles.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+.item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.total {
+    font-size: 22px;
+    color: #22c55e;
+    margin-top: 10px;
+}
+
+table td {
+    vertical-align: middle;
+}
+
+.btn-danger {
+    background: #ef4444;
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <h1>💰 Ventas</h1>
+    <div>
+        <a href="/">Dashboard</a>
+        <a href="/clientes">Clientes</a>
+        <a href="/logout">Salir</a>
+    </div>
+</div>
+
+<div class="container">
+
+<!-- 🛒 FORMULARIO -->
+<div class="card">
+<h3>Registrar Venta</h3>
+
+<form action="/ventas/add" method="POST" onsubmit="prepararEnvio()">
+
+<select name="cliente_id" required>
+<option value="">Seleccionar cliente</option>
+<% clientes.forEach(c => { %>
+<option value="<%= c.id %>"><%= c.nombre %></option>
+<% }) %>
+</select>
+
+<div id="items"></div>
+
+<button type="button" onclick="agregarItem()">➕ Agregar producto</button>
+
+<input type="hidden" name="producto" id="productoFinal">
+<input type="hidden" name="monto" id="montoFinal">
+
+<div class="total">
+Total: $<span id="total">0</span>
+</div>
+
+<button>Registrar Venta</button>
+
+</form>
+</div>
+
+<!-- 📊 HISTORIAL -->
+<div class="card">
+<h3>Historial de Ventas</h3>
+
+<table>
+<tr>
+<th>Cliente</th>
+<th>Pedido</th>
+<th>Total</th>
+<th>Fecha</th>
+<th>Acciones</th>
+</tr>
+
+<% ventas.forEach(v => { %>
+<tr>
+<td><b><%= v.nombre %></b></td>
+<td><%= v.producto %></td>
+<td style="color:#22c55e;">$<%= v.monto %></td>
+<td><%= new Date(v.fecha).toLocaleString() %></td>
+
+<td>
+    <button onclick='ticketDesdeTabla("<%= v.nombre %>", "<%= v.producto %>", "<%= v.monto %>")'>
+        🧾 Ticket
+    </button>
+
+    <a class="btn btn-danger"
+       href="/ventas/delete/<%= v.id %>"
+       onclick="return confirm('¿Eliminar venta?')">
+       ❌
+    </a>
+</td>
+
+</tr>
+<% }) %>
+
+</table>
+</div>
+
+</div>
+
+<script>
+
+// 🦀 MENÚ
+const menu = {
+    "Cangreburger": 50,
+    "Cangreburger doble": 80,
+    "Papas": 30,
+    "Papas grandes": 45,
+    "Coca": 20,
+    "Refresco grande": 35,
+    "Malteada": 40,
+    "Helado": 25
+};
+
+// ➕ agregar item
+function agregarItem() {
+    const div = document.createElement("div");
+    div.classList.add("item");
+
+    div.innerHTML = `
+        <select onchange="calcular()">
+            ${Object.keys(menu).map(p => `<option value="${p}">${p} - $${menu[p]}</option>`).join("")}
+        </select>
+
+        <input type="number" value="1" min="1" onchange="calcular()">
+
+        <button type="button" onclick="this.parentElement.remove(); calcular()">❌</button>
+    `;
+
+    document.getElementById("items").appendChild(div);
+}
+
+// 🧮 calcular
+function calcular() {
+    let total = 0;
+
+    document.querySelectorAll(".item").forEach(item => {
+        let producto = item.children[0].value;
+        let cantidad = item.children[1].value;
+
+        total += menu[producto] * cantidad;
+    });
+
+    document.getElementById("total").innerText = total;
+}
+
+// 📦 preparar envio
+function prepararEnvio() {
+    let resumen = [];
+    let total = 0;
+
+    document.querySelectorAll(".item").forEach(item => {
+        let producto = item.children[0].value;
+        let cantidad = item.children[1].value;
+
+        resumen.push(`${cantidad} ${producto}`);
+        total += menu[producto] * cantidad;
+    });
+
+    document.getElementById("productoFinal").value = resumen.join(", ");
+    document.getElementById("montoFinal").value = total;
+}
+
+// 🧾 ticket desde tabla
+function ticketDesdeTabla(cliente, productos, monto) {
+
+    let contenido = `
+        <h2>🦀 Cascaruso</h2>
+        <hr>
+        <p><b>Cliente:</b> ${cliente}</p>
+        <p><b>Fecha:</b> ${new Date().toLocaleString()}</p>
+        <hr>
+        <p>${productos}</p>
+        <hr>
+        <h3>Total: $${monto}</h3>
+        <p>Gracias por su compra</p>
+    `;
+
+    let ventana = window.open("", "", "width=300,height=500");
+    ventana.document.write(contenido);
+    ventana.print();
+}
+
+</script>
+
+</body>
+</html>

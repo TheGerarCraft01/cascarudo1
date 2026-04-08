@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Clientes | Cascaruso</title>
+<link rel="stylesheet" href="/css/styles.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+.search {
+    margin-bottom: 15px;
+}
+
+.search input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+}
+
+img.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.badge-ok {
+    background: #22c55e;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <h1>👥 Clientes</h1>
+    <div>
+        <a href="/">Dashboard</a>
+        <a href="/ventas">Ventas</a>
+        <a href="/logout">Salir</a>
+    </div>
+</div>
+
+<div class="container">
+
+<div class="card">
+<h3>Nuevo Cliente</h3>
+
+<form action="/clientes/add" method="POST" enctype="multipart/form-data">
+    <input name="nombre" placeholder="Nombre" required>
+    <input name="telefono" placeholder="Teléfono" required>
+    <input name="email" placeholder="Email">
+    <input type="file" name="foto">
+    <button>Guardar</button>
+</form>
+</div>
+
+<div class="card">
+
+<h3>Clientes registrados</h3>
+
+<div class="search">
+    <input type="text" id="buscador" placeholder="🔍 Buscar cliente...">
+</div>
+
+<table id="tablaClientes">
+<tr>
+<th>Foto</th>
+<th>Nombre</th>
+<th>Teléfono</th>
+<th>Estado</th>
+<th>Acciones</th>
+</tr>
+
+<% clientes.forEach(c => { %>
+<tr>
+<td>
+    <% if(c.foto){ %>
+        <img src="/uploads/<%= c.foto %>" class="avatar">
+    <% } else { %>
+        —
+    <% } %>
+</td>
+
+<td><b><%= c.nombre %></b></td>
+<td><%= c.telefono %></td>
+
+<td><span class="badge badge-ok">Activo</span></td>
+
+<td>
+    <a class="btn" href="/clientes/edit/<%= c.id %>">Editar</a>
+    <a class="btn btn-danger"
+       href="/clientes/delete/<%= c.id %>"
+       onclick="return confirm('¿Eliminar?')">Eliminar</a>
+</td>
+</tr>
+<% }) %>
+
+</table>
+
+</div>
+</div>
+
+<script>
+// BUSCADOR
+document.getElementById("buscador").addEventListener("keyup", function() {
+    let filtro = this.value.toLowerCase();
+    let filas = document.querySelectorAll("#tablaClientes tr");
+
+    filas.forEach((fila, i) => {
+        if(i === 0) return;
+        let texto = fila.innerText.toLowerCase();
+        fila.style.display = texto.includes(filtro) ? "" : "none";
+    });
+});
+</script>
+
+</body>
+</html>
